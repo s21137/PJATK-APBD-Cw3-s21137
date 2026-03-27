@@ -21,7 +21,7 @@ public sealed class ZadaniaLinq
     {
         return DaneUczelni.Studenci
             .Where(s => s.Miasto == "Warsaw")
-            .Select(s => $"{s.NumerIndeksu} | {s.Imie} {s.Nazwisko} | {s.Miasto}");
+            .Select(s => $"{s.NumerIndeksu}  {s.Imie} {s.Nazwisko}   {s.Miasto}");
     }
     
 
@@ -52,8 +52,8 @@ public sealed class ZadaniaLinq
     /// </summary>
     public IEnumerable<string> Zadanie03_StudenciPosortowani()
     {
-        return DaneUczelni.Studenci.
-            OrderBy(s => s.Nazwisko)
+        return DaneUczelni.Studenci
+            .OrderBy(s => s.Nazwisko)
             .ThenBy(s=>s.Imie)
             .Select(s=>$"{s.NumerIndeksu} {s.Imie} {s.Nazwisko}");
      
@@ -95,8 +95,7 @@ public sealed class ZadaniaLinq
     /// </summary>
     public IEnumerable<string> Zadanie05_CzyIstniejeNieaktywneZapisanie()
     {
-        return 
-        throw Niezaimplementowano(nameof(Zadanie05_CzyIstniejeNieaktywneZapisanie));
+        return [$"{DaneUczelni.Zapisy.Any(s => !s.CzyAktywny)}"];
     }
 
     /// <summary>
@@ -111,7 +110,7 @@ public sealed class ZadaniaLinq
     /// </summary>
     public IEnumerable<string> Zadanie06_CzyWszyscyProwadzacyMajaKatedre()
     {
-        throw Niezaimplementowano(nameof(Zadanie06_CzyWszyscyProwadzacyMajaKatedre));
+        return [$"{DaneUczelni.Prowadzacy.All(p => !string.IsNullOrEmpty(p.Katedra))}"] ;
     }
 
     /// <summary>
@@ -125,7 +124,8 @@ public sealed class ZadaniaLinq
     /// </summary>
     public IEnumerable<string> Zadanie07_LiczbaAktywnychZapisow()
     {
-        throw Niezaimplementowano(nameof(Zadanie07_LiczbaAktywnychZapisow));
+        return [$" {DaneUczelni.Zapisy.Count(z => z.CzyAktywny)}"];
+      
     }
 
     /// <summary>
@@ -139,9 +139,11 @@ public sealed class ZadaniaLinq
     /// </summary>
     public IEnumerable<string> Zadanie08_UnikalneMiastaStudentow()
     {
-        throw Niezaimplementowano(nameof(Zadanie08_UnikalneMiastaStudentow));
+        return DaneUczelni.Studenci
+            .Select(s => s.Miasto)
+            .Distinct()
+            .OrderBy(m => m);
     }
-
     /// <summary>
     /// Zadanie:
     /// Zwróć trzy najnowsze zapisy na przedmioty.
@@ -154,7 +156,8 @@ public sealed class ZadaniaLinq
     /// </summary>
     public IEnumerable<string> Zadanie09_TrzyNajnowszeZapisy()
     {
-        throw Niezaimplementowano(nameof(Zadanie09_TrzyNajnowszeZapisy));
+        return DaneUczelni.Zapisy.OrderByDescending(z=>z.DataZapisu).Take(3).Select(z => $"data zapisu: {z.DataZapisu} Id Studenta:{z.StudentId} Id przedmiotu: {z.PrzedmiotId}");
+        
     }
 
     /// <summary>
